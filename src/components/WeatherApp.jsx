@@ -7,6 +7,7 @@ const WeatherApp = () => {
   const [weatherData, setWeatherData] = useState("");
   const APIKey = "64d8fe83d2b504f2439b96e57a2c3830";
   const current = new Date();
+  const [time, setTime] = useState('')
   const months = [
     "Jan", "Feb", "Mar", "Apr", "May", "Jun",
     "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
@@ -20,7 +21,7 @@ const WeatherApp = () => {
       let endPointGeolocation = `https://api.openweathermap.org/data/2.5/weather?q=${city}&lat=${latitude}&lon=${longitude}&appid=${APIKey}&units=metric`
       axios.get(endPointGeolocation)
         .then((response) => {
-          console.log(response.data);
+          // console.log(response.data);
           setWeatherData(response.data);
         })
         .catch((err) => {
@@ -36,7 +37,9 @@ const WeatherApp = () => {
       
     }, [])
     
-    
+    setTimeout(() => {
+       setTime(current.toLocaleTimeString())
+    }, 1000);
     
     const handleSearch = () => {
       const API = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${APIKey}&units=metric`;
@@ -65,9 +68,9 @@ const WeatherApp = () => {
             <input type="text" className="" onChange={(e) => setCity(e.target.value)} />
             <button className="searchBtn" onClick={handleSearch}>Search</button>
           </div>
-          <div className="pt-3 pt-lg-0">
+          <div className="pt-5 pt-lg-0">
             <h1>Date:</h1>
-            <h4>{date}</h4>
+            <h4 className="text-info">{date}, {time}</h4>
           </div>
         </div>
         {weatherData && (
